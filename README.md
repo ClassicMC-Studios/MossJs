@@ -64,6 +64,8 @@ var draw = function(){
 }
 ```
 
+> Need more help? Visit <a href="https://classicmc-studios.github.io/ejs/">Ethans MossJs course</a>  
+
 ## Moss project examples
 
 ### [Rock Simulator 2023](https://classicmc-studios.github.io/rs23)
