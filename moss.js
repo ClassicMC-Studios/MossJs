@@ -1,3 +1,8 @@
+/*
+*   Moss.JS v2
+*   global mouse position
+*   constant render
+*/
 canvas = document.getElementById("myCanvas");
 c = canvas.getContext("2d");
 class Draw{
@@ -128,7 +133,17 @@ function getMousePos(canvas, event) {
         y: event.clientY - rect.top
     };
 }
+let mouse  = {}
+function mouseWillMove(){
+    document.getElementById("myCanvas").addEventListener('mousemove',function(evt){
+        mouse = getMousePos(document.getElementById("myCanvas"),evt);
+    });
+};mouseWillMove();
 // Provide TWO arguments both mousePos (from getMousePos), and an object array using {} (requires x, y, width, height ) 
 function isInside(pos,rt){
     return pos.x > rt.x && pos.x < rt.x + rt.width && pos.y <rt.y+rt.height && pos.y > rt.y;
 }
+function main(){
+    requestAnimationFrame(main)
+    render()
+};main();
