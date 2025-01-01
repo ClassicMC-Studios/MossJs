@@ -1,37 +1,24 @@
 /*
-*   Moss.JS v2
-*   global mouse position
-*   constant render
+    Built in Keystrokes
+    Built in Mouse hover and click
+    Built in render pipeline
 */
 canvas = document.getElementById("myCanvas");
 c = canvas.getContext("2d");
-class Draw{
-    mu = setInterval(draw,1);
+
+function hits(x,y,width,height,xx,yy,ww,hh){
+    if(x < xx + ww &&
+    x + width > xx &&
+    y < yy + hh &&
+    y + height > yy){
+        return true;
+    }  
+    else{
+        return false;
+    }
 }
-class Studio{
-    printf(text){
-        alert(text.toString());
-    }
-    hits(x,y,width,height,xx,yy,ww,hh){
-        if(x < xx + ww &&
-        x + width > xx &&
-        y < yy + hh &&
-        y + height > yy){
-            return true;
-        }  
-        else{
-            return false;
-        }
-    }
-    input(ipt){
-        return prompt(ipt.toString());
-    }
-    confirm(conf){
-        return confirm(conf.toString());
-    }
-    random(max){
-        return Math.floor(Math.random() * max);
-    }
+function random(max){
+    return Math.floor(Math.random() * max);
 }
 function createCanvas(width,height){
     canvas.width = width;
@@ -56,7 +43,7 @@ function rect(x,y,w,h,opacity = 1){
         c.strokeRect(x,y,w,h);
     }
 }
-function ellipse(x,y,r,opacity = 1){
+function circle(x,y,r,opacity = 1){
     c.globalAlpha = opacity;
     c.beginPath();
     if(this.stroke){
@@ -71,17 +58,25 @@ function ellipse(x,y,r,opacity = 1){
     c.fill();
     c.globalAlpha = 1;
 }
-function clear(){
-    while(true){
-        console.log("Draw project break/>");
+function ellipse(x,y,w,h,r=0,opacity=1){
+    c.globalAlpha = opacity;
+    c.beginPath()
+    if(this.stroke){
+        c.ellipse(x, y, w, h, r, 0, 2 * Math.PI);
+        c.stroke();
     }
+    else{
+        c.ellipse(x, y, w, h, r, 0, 2 * Math.PI);
+    }
+    c.fill()
+    c.globalAlpha = 1;
 }
+
 function text(text,x,y,size,font,opacity=1){
     c.globalAlpha = opacity;
     c.font = 'bold '+size+'px '+font+'';
     c.fillText(text,x,y);
 }
-//TODO: Images
 function line(x,y,xx,yy,opacity=1){
     c.globalAlpha = opacity;
     c.beginPath();
@@ -139,9 +134,94 @@ function mouseWillMove(){
         mouse = getMousePos(document.getElementById("myCanvas"),evt);
     });
 };mouseWillMove();
+function mouseClicked(func){
+    document.getElementById("myCanvas").addEventListener('click',function(evt){
+        func();
+    });
+}
 // Provide TWO arguments both mousePos (from getMousePos), and an object array using {} (requires x, y, width, height ) 
 function isInside(pos,rt){
     return pos.x > rt.x && pos.x < rt.x + rt.width && pos.y <rt.y+rt.height && pos.y > rt.y;
+}
+
+let leftKeyPressed = false;
+let rightKeyPressed = false;
+let upKeyPressed = false;
+let downKeyPressed = false;
+let key = "none";
+function keyPressed(evt){
+  if(evt.keyCode == 37||evt.keyCode==65){
+      key = "pressed"
+      leftKeyPressed = true;
+  }
+  else if(evt.keyCode == 39||evt.keyCode==68){
+      key = "pressed"
+      rightKeyPressed = true;
+  }
+  else if(evt.keyCode == 38||evt.keyCode==87){
+      key = "pressed"
+      upKeyPressed = true;
+  }
+  else if(evt.keyCode == 40||evt.keyCode==83){
+      key = "pressed"
+      downKeyPressed = true;
+  }
+}
+function keyReleased(evt){
+  if(evt.keyCode == 37||evt.keyCode==65){
+      leftKeyPressed = false;
+  }
+  else if(evt.keyCode == 39||evt.keyCode==68){
+      rightKeyPressed = false;
+  }
+  else if(evt.keyCode == 38||evt.keyCode==87){
+      upKeyPressed = false;
+  }
+  else if(evt.keyCode == 40||evt.keyCode==83){
+      downKeyPressed = false;
+  }
+}
+let allowMultiMove = true;
+function playerMove(){
+    if(!downKeyPressed&&!upKeyPressed&&!leftKeyPressed&&!rightKeyPressed){
+      key = "none"
+    }
+    if(allowMultiMove){
+        if(leftKeyPressed){
+            left()
+          }
+        if(rightKeyPressed){
+            right()
+          }
+        if(upKeyPressed){
+            up()
+          }
+        if(downKeyPressed){
+            down()
+        }
+    }else{
+        if(leftKeyPressed){
+            left()
+        }
+        else if(rightKeyPressed){
+            right()
+        }
+        else if(upKeyPressed){
+            up()
+        }
+        else if(downKeyPressed){
+            down()
+        }
+    }
+}
+function oneKeyAtATime(){
+    allowMultiMove = false;
+}
+function useKeys(){
+  requestAnimationFrame(useKeys)
+  document.addEventListener('keydown',keyPressed);
+  document.addEventListener('keyup',keyReleased);
+  playerMove();
 }
 function main(){
     requestAnimationFrame(main)
