@@ -5,16 +5,16 @@
 
 ``` js
  //This is a project made in moss.js
-let screenX = screen.width;
-let screenY = screen.height;
-let centerX = screenX / 2;
-let centerY = screenY / 2;
-createCanvas(screenX,screenY);
-bg("#00cfEE");
-strokeSize(5);
-strokeColor("#000000");
-selectColor("#ff00cE");
-rect(centerX-50,centerY-50,100,100);
+ let screenX = window.innerWidth;
+ let screenY = window.innerHeight;
+ let centerX = screenX / 2;
+ let centerY = screenY / 2;
+ createCanvas(screenX,screenY);
+ bg("#00cfEE");
+ strokeSize(5);
+ strokeColor("#000000");
+ selectColor("#ff00cE");
+ rect(centerX-50,centerY-50,100,100);
 ```
 ## How to make a new project
 
@@ -44,24 +44,6 @@ bg("#00cc00",0.1);
 strokeColor("#000000");
 selectColor("#ffffff");
 rect(720/2-50,480/2-50,100,100);
-```
-
-## Additions 
-
-> <b>Studio</b>
-
-``` js
-const stdio = new Studio();
-stdio.input("Hello World!");
-```
-
-> <b>Draw</b>
-
-```js 
-new Draw();
-var draw = function(){
- //Runs once every millisecond
-}
 ```
 
 > Need more help? Visit <a href="https://classicmc-studios.github.io/ejs/">Ethans MossJs course</a>  
